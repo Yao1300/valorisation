@@ -1,0 +1,98 @@
+putty
+
+pour copier un texte sur putty, sélectionner puis bouton droit souris
+
+
+affichage contenu sur HDP 2.6.5
+hadoop fs -ls
+
+création dossier 
+hadoop fs -mkdir ml-100k
+
+copier file de remote à local 
+wget http://media.sundog-soft.com/hadoop/ml-100k/u.data
+
+copier vers HDFS
+hadoop fs -copyFromLocal u.data ml-100k/u.data
+
+
+contenu directory sur HDFS
+hadoop fs -ls ml-100k/n
+
+se connecter sur root
+su root
+password
+
+Procédure installation MapReduce
+
+yum-config-manager --save --setopt=HDP-SOLR-2.6-100.skip_if_unavailable=true
+yum install https://repo.ius.io/ius-release-el7.rpm https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install python-pip
+pip install pathlib
+pip install mrjob==0.7.4
+pip install PyYAML==5.4.1
+yum install nano
+
+
+Chargement de données + programmes de site web
+
+wget http://media.sundog-soft.com/hadoop/RatingsBreakdown.py
+wget http://media.sundog-soft.com/hadoop/ml-100k/u.data
+
+Exécution sans hadoop 
+python RatingsBreakdown.py u.data
+
+Exécution avec hadoop 
+python RatingsBreakdown.py -r hadoop --hadoop-streaming-jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar u.data
+
+r/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar u.data
+
+
+
+
+
+Copier fichier entre Linux et Windows avec scp de la ligne de commande de Windows
+
+C:\Users\asahraoui>cd downloads
+
+C:\Users\asahraoui\Downloads>scp
+usage: scp [-346BCpqrTv] [-c cipher] [-F ssh_config] [-i identity_file]
+            [-J destination] [-l limit] [-o ssh_option] [-P port]
+            [-S program] source ... target
+
+copier de HDP vers windows
+C:\Users\asahraoui\Downloads>scp -P 2222 maria_dev@127.0.0.1:u.data u4.data
+
+copier de Windows vers HDP
+C:\Users\asahraoui\Downloads>scp -P 2222  u4.data maria_dev@127.0.0.1:u.data
+
+
+autres exemples
+
+copy a local file scp.zip to a remote server called root. The server’s IP address comes after the username.
+scp /users/Hostinger/desktop/scp.zip root@191.162.0.2:/writing/article
+
+the remote server is set to listen for SSH connections on a port other than the default SSH port 22. In this case, you will have to specify that port using the -P option.
+scp -P 2322 /users/Hostinger/desktop/scp.zip root@191.162.0.2:/writing/article
+
+Use the –r option followed by the same command line to copy a directory with multiple files or subdirectories
+scp -r /users/Hostinger/desktop root@191.162.0.2:/writing/article
+
+
+
+installation avec pip de la ligne de commande
+Installing from PyPI
+
+The most common usage of pip is to install from the Python Package Index using a requirement specifier. Generally speaking, a requirement specifier is composed of a project name followed by an optional version specifier. PEP 440 contains a full specification of the currently supported specifiers. Below are some examples.
+
+To install the latest version of “SomeProject”:
+
+py -m pip install "SomeProject"
+
+To install a specific version:
+Unix/macOS
+Windows
+
+py -m pip install "SomeProject==1.4"
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu focal stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
